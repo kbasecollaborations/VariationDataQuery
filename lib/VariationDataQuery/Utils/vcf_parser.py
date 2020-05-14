@@ -23,12 +23,12 @@ class vcf_parser:
            print ("OSError > ", e.strerror)
            print ("OSError > ", e.filename) 
 
-   def get_variants(self, chr, start, stop, url_template, tbi_url_template):
+   def get_variants(self, chr, start, stop, url_template, tbi_url_template, index):
        outpath = "/kb/module/deps"
-       cmd =  "node " + outpath + "/get_variants.js " + chr + " " + start + " " + stop + " " + url_template + " " + tbi_url_template 
+       cmd =  "node " + outpath + "/get_variants.js " + chr + " " + start + " " + stop + " " + url_template + " " + tbi_url_template +" " + str(index)
        self.run_cmd(cmd)
 
-   def getjson(self, header_file, variant_file, output_dir):
+   def getjson(self, header_file, variant_file, output_dir, index):
        
        Variations = []
        harray = []
@@ -53,7 +53,7 @@ class vcf_parser:
                     #print(values)
                     Variations.append( vcfarray)
 
-       outfile = os.path.join(output_dir,"variants.tsv" )
+       outfile = os.path.join(output_dir, "variants" + str(index) + ".tsv" )
        with open(outfile, "w") as fout:
             fout.write("CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT")
             for hdr in harray:

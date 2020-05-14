@@ -11,6 +11,13 @@ module VariationDataQuery {
     /*
         This example function accepts any number of parameters and returns results in a KBaseReport
     */
-    funcdef run_VariationDataQuery(mapping<string,UnspecifiedObject> params) returns (ReportResults output) authentication required;
+
+    typedef structure {
+      list<string> input_contig_ids;
+      string workspace_name;
+      list <string> coordinates;
+      string variation_object_name;
+    } InputParams;
+    funcdef run_VariationDataQuery(InputParams params) returns (ReportResults output) authentication required;
 
 };

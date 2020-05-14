@@ -3,6 +3,7 @@ start = process.argv[3]
 stop = process.argv[4]
 url_template = process.argv[5]
 tbi_url_template = process.argv[6]
+index = process.argv[7]
 //console.log(url_template)
 //console.log(chr + "\t"+ start +"\t" + stop)
 
@@ -19,7 +20,7 @@ async function getvar(){
 await remoteTbiIndexed.getLines(chr, start, stop, (line, fileOffset) => lines.push(line))
 
 
-fs.writeFile('/kb/module/work/tmp/data.txt', lines, function (err,data) {
+fs.writeFile('/kb/module/work/tmp/data'+index+'.txt', lines, function (err,data) {
   if (err) {
     return console.log(err);
   }
@@ -28,7 +29,7 @@ fs.writeFile('/kb/module/work/tmp/data.txt', lines, function (err,data) {
 const headerText = await remoteTbiIndexed.getHeader()
 const tbiVCFParser = new VCF({ header: headerText })
 
-fs.writeFile('/kb/module/work/tmp/sample_names.txt', tbiVCFParser.samples, function (err,data) {
+fs.writeFile('/kb/module/work/tmp/sample_names'+index+'.txt', tbiVCFParser.samples, function (err,data) {
   if (err) {
     return console.log(err);
   }

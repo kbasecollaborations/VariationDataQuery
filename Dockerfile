@@ -10,7 +10,7 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
 RUN apt-get update \
     && apt-get install -y --no-install-recommends nodejs
 RUN npm install --save @gmod/tabix @gmod/vcf
-
+RUN pip install pandas
 
 # -----------------------------------------
 

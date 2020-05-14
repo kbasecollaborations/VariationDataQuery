@@ -29,11 +29,6 @@ parameters :
             Variation Object Name
         short-hint : |
             Variation Object Name
-    input_contig_ids :
-        ui-name : |
-            input contig ids
-        short-hint : |
-            input contig ids
     coordinates :
         ui-name : |
             start and Stop positions

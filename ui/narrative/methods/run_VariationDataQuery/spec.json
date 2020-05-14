@@ -21,26 +21,6 @@
       "valid_ws_types" : ["KBaseGwasData.Variations"]
     }
   },
-  {
-    "id" : "input_contig_ids",
-    "optional" : true,
-    "advanced" : false,
-    "allow_multiple" : false,
-    "default_values" : [ "" ],
-    "field_type" : "textsubdata",
-    "textsubdata_options" : {
-      "subdata_selection": {
-        "parameter_id" : "input_genome",
-        "subdata_included" : [" contigs/[*]/contig_id"],
-        "selection_id" : "contig_id",
-        "path_to_subdata": ["contigs"],
-        "selection_description" : ["aliases","function"],
-        "multiselection":true,
-        "show_src_obj":true,
-        "allow_custom":false
-        }
-     }
-   },
         {
             "id": "coordinates",
             "optional": true,
@@ -68,10 +48,6 @@
                 },{
                     "input_parameter": "variation_object_name",
                     "target_property": "variation_object_name"
-                },
-                {
-                    "input_parameter": "input_contig_ids",
-                    "target_property": "input_contig_ids"
                 },
                 {
                     "input_parameter": "coordinates",
