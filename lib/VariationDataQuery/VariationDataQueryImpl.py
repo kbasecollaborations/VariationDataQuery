@@ -63,7 +63,9 @@ class VariationDataQuery:
         coordinates = params['coordinates']
 
         id = 0
-        for coord in coordinates:
+
+        coord_array = coordinates.split(",")
+        for coord in coord_array:
             contig_id,start,stop = coord.split("-")
             id = id + 1
             print(contig_id + "\t" + str(start) + "\t" + str(stop))

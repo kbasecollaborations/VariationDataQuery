@@ -13,9 +13,8 @@ module VariationDataQuery {
     */
 
     typedef structure {
-      list<string> input_contig_ids;
       string workspace_name;
-      list <string> coordinates;
+      string coordinates;
       string variation_object_name;
     } InputParams;
     funcdef run_VariationDataQuery(InputParams params) returns (ReportResults output) authentication required;

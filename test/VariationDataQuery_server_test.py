@@ -63,4 +63,5 @@ class VariationDataQueryTest(unittest.TestCase):
         #
         # Check returned data with
         # self.assertEqual(ret[...], ...) or other unittest methods
-        ret = self.serviceImpl.run_VariationDataQuery(self.ctx, {'workspace_name': 'man4ish_gupta:narrative_1585669223193', 'coordinates':['Chr01-1-1000'], 'variation_object_name':'x/y/z'})
+        ret = self.serviceImpl.run_VariationDataQuery(self.ctx, {'workspace_name': 'man4ish_gupta:narrative_1585669223193', 'coordinates':'Chr01-1-1000,Chr01-1-1000', 'variation_object_name':'x/y/z'})
+000000000000
