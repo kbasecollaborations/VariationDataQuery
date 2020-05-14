@@ -2,8 +2,11 @@
 #BEGIN_HEADER
 import logging
 import os
-
+import uuid
+from VariationDataQuery.Utils.vcf_parser import vcf_parser
+from VariationDataQuery.Utils.htmlreportutils import htmlreportutils
 from installed_clients.KBaseReportClient import KBaseReport
+
 #END_HEADER
 
 
@@ -37,6 +40,8 @@ class VariationDataQuery:
         self.shared_folder = config['scratch']
         logging.basicConfig(format='%(created)s %(levelname)s: %(message)s',
                             level=logging.INFO)
+        self.vp = vcf_parser() 
+        self.hr = htmlreportutils()
         #END_CONSTRUCTOR
         pass
 
@@ -51,14 +56,26 @@ class VariationDataQuery:
         # ctx is the context object
         # return variables are: output
         #BEGIN run_VariationDataQuery
+
+        outputdir = self.shared_folder + '/' + str(uuid.uuid1())
+        os.mkdir(outputdir)
+        workspace = params['workspace_name']
+        sample_info_file = os.path.join(self.shared_folder, "sample_names.txt")
+        variants_info_file = os.path.join(self.shared_folder, "data.txt")
+        self.vp.get_variants( "Chr02", "1" , "10000",  "https://appdev.kbase.us/dynserv/b8fedfd6d8a1fc10372bcbad4f152b4b6d85507b.VariationFileServ/shock/a293a557-47b3-4fcc-8bef-d2049ad6368a", "https://appdev.kbase.us/dynserv/b8fedfd6d8a1fc10372bcbad4f152b4b6d85507b.VariationFileServ/shock/f19936ff-6f66-4a44-831f-1bfcdc6e88c4")
+       
+        
+        variant_file = self.vp.getjson(sample_info_file, variants_info_file, outputdir)
+        output = self.hr.create_html_report(self.callback_url, outputdir, workspace) 
+        
         report = KBaseReport(self.callback_url)
-        report_info = report.create({'report': {'objects_created':[],
+        '''report_info = report.create({'report': {'objects_created':[],
                                                 'text_message': params['parameter_1']},
                                                 'workspace_name': params['workspace_name']})
         output = {
             'report_name': report_info['name'],
             'report_ref': report_info['ref'],
-        }
+        }'''
         #END run_VariationDataQuery
 
         # At some point might do deeper type checking...

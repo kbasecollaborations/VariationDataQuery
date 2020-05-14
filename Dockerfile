@@ -6,7 +6,10 @@ MAINTAINER KBase Developer
 # install line here, a git checkout to download code, or run any other
 # installation scripts.
 
-# RUN apt-get update
+RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends nodejs
+RUN npm install --save @gmod/tabix @gmod/vcf
 
 
 # -----------------------------------------

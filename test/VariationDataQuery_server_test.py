@@ -63,5 +63,4 @@ class VariationDataQueryTest(unittest.TestCase):
         #
         # Check returned data with
         # self.assertEqual(ret[...], ...) or other unittest methods
-        ret = self.serviceImpl.run_VariationDataQuery(self.ctx, {'workspace_name': self.wsName,
-                                                             'parameter_1': 'Hello World!'})
+        ret = self.serviceImpl.run_VariationDataQuery(self.ctx, {'workspace_name': 'man4ish_gupta:narrative_1585669223193'})
