@@ -51,27 +51,19 @@ class vcf_parser:
                     alt = vcfarray[4]
                     values = vcfarray[9:len(vcfarray)]
                     #print(values)
-                    Variations.append(
-                                       {
-                                          "Chr" : chrm,
-                                          "Pos" : pos,
-                                          "Ref" : ref,
-                                          "Alt" : alt,
-                                          "type": "SNP/Indel" 
-                                       }
-                  
-                   )
-       
+                    Variations.append( vcfarray)
+
        outfile = os.path.join(output_dir,"variants.tsv" )
        with open(outfile, "w") as fout:
-            fout.write("Sample\tSNP\tCHR\tRef\tAllele\tPOS\n")
+            fout.write("CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT")
+            for hdr in harray:
+                fout.write("\t" + hdr)
+            fout.write("\n")
             for i in range(0, len(Variations)):
-                fout.write(harray[i] +"\t" +Variations[i]["Chr"]+"_"+Variations[i]["Pos"] + "\t" + Variations[i]["Chr"] + "\t" + Variations[i]["Ref"]+ "\t" + Variations[i]["Alt"] + "\t" + Variations[i]["Pos"]+"\n")       
+                for j in range (0, len(Variations[i])):
+                    fout.write(Variations[i][j] + "\t")
+                fout.write("\n")
 
        return outfile
                 
-                    
-#if __name__ == '__main__':
-#   vp = vcf_parser()
-#   vp.get_variants( "Chr02", "1" , "10000",  "https://appdev.kbase.us/dynserv/b8fedfd6d8a1fc10372bcbad4f152b4b6d85507b.VariationFileServ/shock/a293a557-47b3-4fcc-8bef-d2049ad6368a", "https://appdev.kbase.us/dynserv/b8fedfd6d8a1fc10372bcbad4f152b4b6d85507b.VariationFileServ/shock/f19936ff-6f66-4a44-831f-1bfcdc6e88c4")
-#   vp.getjson("sample_names.txt", "data.txt")
+
