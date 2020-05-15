@@ -6,6 +6,12 @@ class vcf_parser:
    def init(self):
        pass
 
+   def validate_params(self, params):
+       if 'variation_object_name' not in params:
+           raise ValueError('required variation_object_name field was not defined')
+       elif 'coordinates' not in params:
+           raise ValueError('required coordinates field was not defined')
+
    def run_cmd(self, cmd):
 
        try:
@@ -56,15 +62,15 @@ class vcf_parser:
        try:
             with open(outfile, "a") as fout:
                 if (index == 0):
-                    fout.write("CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT")
-                    for hdr in harray:
-                        fout.write("\t" + hdr)
-                    fout.write("\n")
+                    fout.write("CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t")
+                    fout.write("\t".join(harray) + "\n")
 
                 for i in range(0, len(Variations)):
+                    rec = []
                     for j in range (0, len(Variations[i])):
-                        fout.write(Variations[i][j] + "\t")
-                fout.write("\n")
+                        rec.append(Variations[i][j])
+                    joined_line = "\t".join(rec)
+                    fout.write(joined_line + "\n")
        except IOError:
            print("Unable to write to "+ outfile)
 

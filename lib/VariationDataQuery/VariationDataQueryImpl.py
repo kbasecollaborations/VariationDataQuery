@@ -57,6 +57,7 @@ class VariationDataQuery:
         # return variables are: output
         #BEGIN run_VariationDataQuery
 
+        self.vp.validate_params(params)
         outputdir = self.shared_folder + '/' + str(uuid.uuid1())
         os.mkdir(outputdir)
         workspace = params['workspace_name']
