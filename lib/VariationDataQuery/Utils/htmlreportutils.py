@@ -27,13 +27,22 @@ class htmlreportutils:
                 counter = 0
 
                 for line in lines:
+                    line = line.rstrip()
                     rows = line.split("\t")
 
                     if (counter != 0):
                         htmlout += "<tr>"
 
                         for i in range(0,len(rows)):
-                            htmlout += "<td>" + rows[i] + "</td>"
+                            if(rows[i] == "0/0"):
+                                color = "#00FF00"
+                            elif(rows[i] == "0/1"):
+                                color = "#FF0000"
+                            elif(rows[i] == "1/1"):
+                                color = "#FFA07A"
+                            else:
+                                color = "#FFFFFF"
+                            htmlout += "<td "+ "style=\"background-color:" + color + "\" >" + rows[i] + "</td>"
                         htmlout += "</tr>"
 
                     counter = counter + 1
