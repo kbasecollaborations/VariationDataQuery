@@ -67,13 +67,14 @@ class VariationDataQuery:
         coord_array = coordinates.split(",")
         for coord in coord_array:
             contig_id,start,stop = coord.split("-")
-            id = id + 1
             print(contig_id + "\t" + str(start) + "\t" + str(stop))
             sample_info_file = os.path.join(self.shared_folder, "sample_names" + str(id) + ".txt")
             variants_info_file = os.path.join(self.shared_folder, "data" + str(id) + ".txt")
             self.vp.get_variants( contig_id, str(start), str(stop),  "https://appdev.kbase.us/dynserv/b8fedfd6d8a1fc10372bcbad4f152b4b6d85507b.VariationFileServ/shock/a293a557-47b3-4fcc-8bef-d2049ad6368a", "https://appdev.kbase.us/dynserv/b8fedfd6d8a1fc10372bcbad4f152b4b6d85507b.VariationFileServ/shock/f19936ff-6f66-4a44-831f-1bfcdc6e88c4", id)
             variant_file = self.vp.getjson(sample_info_file, variants_info_file, outputdir, id)
-            output = self.hr.create_html_report(self.callback_url, outputdir, workspace, id)
+            id = id + 1
+
+        output = self.hr.create_html_report(self.callback_url, outputdir, workspace)
         
         report = KBaseReport(self.callback_url)
 

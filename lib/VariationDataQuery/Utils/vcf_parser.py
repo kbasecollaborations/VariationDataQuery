@@ -53,12 +53,14 @@ class vcf_parser:
                     #print(values)
                     Variations.append( vcfarray)
 
-       outfile = os.path.join(output_dir, "variants" + str(index) + ".tsv" )
-       with open(outfile, "w") as fout:
-            fout.write("CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT")
-            for hdr in harray:
-                fout.write("\t" + hdr)
-            fout.write("\n")
+       outfile = os.path.join(output_dir, "variants.tsv" )
+       with open(outfile, "a") as fout:
+            if (index == 0):
+                fout.write("CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT")
+                for hdr in harray:
+                    fout.write("\t" + hdr)
+                fout.write("\n")
+
             for i in range(0, len(Variations)):
                 for j in range (0, len(Variations[i])):
                     fout.write(Variations[i][j] + "\t")
