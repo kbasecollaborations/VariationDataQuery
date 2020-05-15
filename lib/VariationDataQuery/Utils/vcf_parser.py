@@ -29,42 +29,44 @@ class vcf_parser:
        self.run_cmd(cmd)
 
    def getjson(self, header_file, variant_file, output_dir, index):
-       
-       Variations = []
-       harray = []
-       with open(header_file,"r") as hfile:
-            for hline in hfile:
-                hline = hline.rstrip()
-                harray = hline.split(",")
-       #print(harray)
 
-       with open(variant_file,"r") as vfile:
-            for vline in vfile:
-                vline = vline.rstrip()
-                varray = vline.split(",")
-                for var in varray:
-                    vcfarray = var.split("\t")
-                    #print(vcfline)
-                    chrm = vcfarray[0]
-                    pos = vcfarray[1]
-                    ref = vcfarray[3]
-                    alt = vcfarray[4]
-                    values = vcfarray[9:len(vcfarray)]
-                    #print(values)
-                    Variations.append( vcfarray)
+       harray = []
+       try:
+            with open(header_file,"r") as hfile:
+                for hline in hfile:
+                    hline = hline.rstrip()
+                    harray = hline.split(",")
+       except IOError:
+           print("Unable to open "+ header_file)
+
+       Variations = []
+       try:
+            with open(variant_file,"r") as vfile:
+                for vline in vfile:
+                    vline = vline.rstrip()
+                    varray = vline.split(",")
+                    for var in varray:
+                        vcfarray = var.split("\t")
+                        Variations.append( vcfarray)
+       except IOError:
+           print("Unable to open "+ variant_file)
 
        outfile = os.path.join(output_dir, "variants.tsv" )
-       with open(outfile, "a") as fout:
-            if (index == 0):
-                fout.write("CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT")
-                for hdr in harray:
-                    fout.write("\t" + hdr)
-                fout.write("\n")
 
-            for i in range(0, len(Variations)):
-                for j in range (0, len(Variations[i])):
-                    fout.write(Variations[i][j] + "\t")
+       try:
+            with open(outfile, "a") as fout:
+                if (index == 0):
+                    fout.write("CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT")
+                    for hdr in harray:
+                        fout.write("\t" + hdr)
+                    fout.write("\n")
+
+                for i in range(0, len(Variations)):
+                    for j in range (0, len(Variations[i])):
+                        fout.write(Variations[i][j] + "\t")
                 fout.write("\n")
+       except IOError:
+           print("Unable to write to "+ outfile)
 
        return outfile
                 

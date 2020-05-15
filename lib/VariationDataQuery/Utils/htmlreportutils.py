@@ -9,34 +9,43 @@ class htmlreportutils:
     def create_table(self, filename, output_dir):
 
         id = filename.split(".")[0]
-
+        header = ""
         htmlout = "<table id=\"" + id + "\" class=\"table table-striped table-bordered\" style=\"width:100%\">"
 
-        with open (output_dir + "/" + filename) as file:
-            lines = file.readlines()
-            htmlout += "<thead><tr>"
-            header = lines[0]
-            hrow = header.split("\t")
-            for k in range(0, len(hrow)):
-                htmlout += "<th>" + hrow[k] + "</th>"
-            htmlout += "</tr></thead>"
+        try:
+            with open (output_dir + "/" + filename) as file:
+                lines = file.readlines()
+                htmlout += "<thead><tr>"
+                header = lines[0]
+                hrow = header.split("\t")
 
-            htmlout += "<tbody>"
-            counter = 0
-            for line in lines:
-                rows = line.split("\t")
-                if (counter != 0):
-                    htmlout += "<tr>"
-                    for i in range(0,len(rows)):
-                        htmlout += "<td>" + rows[i] + "</td>"
-                    htmlout += "</tr>"
-                counter = counter + 1
+                for k in range(0, len(hrow)):
+                    htmlout += "<th>" + hrow[k] + "</th>"
+                htmlout += "</tr></thead>"
 
+                htmlout += "<tbody>"
+                counter = 0
 
-            htmlout += "</tbody><tfoot><tr>"
-            hrows = header.split("\t")
-            for j in range(0, len(hrows)):
-                htmlout += "<th>" + hrows[j] + "</th>"
+                for line in lines:
+                    rows = line.split("\t")
+
+                    if (counter != 0):
+                        htmlout += "<tr>"
+
+                        for i in range(0,len(rows)):
+                            htmlout += "<td>" + rows[i] + "</td>"
+                        htmlout += "</tr>"
+
+                    counter = counter + 1
+
+        except IOError:
+            print("Unable to read " + output_dir + "/" + filename)
+
+        htmlout += "</tbody><tfoot><tr>"
+        hrows = header.split("\t")
+        for j in range(0, len(hrows)):
+            htmlout += "<th>" + hrows[j] + "</th>"
+
         htmlout += "</tr></tfoot></table>"
         return htmlout
 
@@ -50,8 +59,7 @@ class htmlreportutils:
                  "\"href=\"https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css\"><script src=\"https://code.jquery.com/jquery-3.3.1.js\">" \
                  "</script><script src=\"https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js\">" \
                  "</script><script src=\"https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js\"></script>"
-        output += "<script> $(document).ready(function() {$(\'#variants\').DataTable();} ); </script></heade>"
-        output += ""
+        output += "<script> $(document).ready(function() {$(\'#variants\').DataTable();} ); </script></head>"
 
         output += self.create_table(filename, output_dir)
         return output
@@ -69,8 +77,7 @@ class htmlreportutils:
 
         try:
             with open(output_dir +"/index.html" , "w") as html_file:
-
-               html_file.write(htmlstring + "</body></html><br><br><br>" +"\n")
+               html_file.write(htmlstring +"\n")
         except IOError:
             print("Unable to write "+ index_file_path + " file on disk.")
 
